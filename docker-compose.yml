@@ -1,6 +1,6 @@
 version: '2'
 services:
-  zoo-master:
+  zookeeper:
     image: zookeeper
     restart: always
     ports:
@@ -18,8 +18,9 @@ services:
         - EXCLUDE_PORTS=8081,8082
         #Used by ListenTCP or other processors. Depends on the data flow.
         - TCP_PORTS=9001
+        - NIFI_HOME=/opt/nifi
     depends_on:
-        - zoo-master
+        - zookeeper
   
   lb-nifi:
     image: dockercloud/haproxy
