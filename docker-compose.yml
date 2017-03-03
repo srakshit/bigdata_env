@@ -1,0 +1,38 @@
+version: '2'
+services:
+  zoo-master:
+    image: zookeeper
+    restart: always
+    ports:
+      - 2181
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=zoo1:2888:3888
+
+  nifi:
+    build: ./nifi
+    image: nifi-node
+    environment:
+        - http_proxy="http://16.85.88.10:8080" 
+        - https_proxy="http://16.85.88.10:8080"
+        - EXCLUDE_PORTS=8081,8082
+        #Used by ListenTCP or other processors. Depends on the data flow.
+        - TCP_PORTS=9001
+    depends_on:
+        - zoo-master
+  
+  lb-nifi:
+    image: dockercloud/haproxy
+    links:
+      - nifi
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+ 
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9090:9000

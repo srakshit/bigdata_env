@@ -1,0 +1,25 @@
+FROM 	centos:latest
+
+MAINTAINER Subham Rakshit <subham.rakshit@hpe.com>
+
+ENV 	DIST_MIRROR		https://public-repo-1.hortonworks.com/HDF
+ENV 	NIFI_HOME		/opt/nifi
+ENV 	HDF_VERSION		2.1.2.0
+ENV 	NIFI_VERSION	1.1.0
+
+RUN	yum -y update && yum install -y wget system-config-services java-1.8.0-openjdk
+	
+WORKDIR	/opt
+
+#RUN 	mkdir -p nifi/ && \
+		wget -O nifi.tar.gz ${DIST_MIRROR}/${HDF_VERSION}/nifi-${NIFI_VERSION}.${HDF_VERSION}-10-bin.tar.gz
+
+RUN	tar -xzvf nifi.tar.gz -C nifi/
+
+RUN 	nifi/nifi-${NIFI_VERSION}.${HDF_VERSION}-10/bin/nifi.sh install
+
+RUN 	service nifi start
+
+#RUN 	rm -f nifi.tar.gz
+
+EXPOSE 	8080
