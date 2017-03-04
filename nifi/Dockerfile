@@ -10,9 +10,9 @@ ADD ./nifi-* /opt/
 
 RUN mv /opt/nifi-${NIFI_VERSION}.${HDF_VERSION}-10/ ${NIFI_HOME} \
 	&& sed -i -e "s|^nifi.ui.banner.text=.*$|nifi.ui.banner.text=Docker NiFi ${NIFI_VERSION}|" ${NIFI_HOME}/conf/nifi.properties \
-	&& groupadd nifi \
-    && useradd -r -g nifi nifi \
 	&& bash -c "mkdir -p ${NIFI_HOME}/{database_repository,flowfile_repository,content_repository,provenance_repository}" \
+	&& groupadd nifi \
+    	&& useradd -r -g nifi nifi \
 	&& chown nifi:nifi -R ${NIFI_HOME} \
 	&& chown nifi:nifi /opt/nifi-properties.sh \
 	&& chmod 754 /opt/nifi-properties.sh

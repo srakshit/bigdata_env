@@ -4,23 +4,21 @@ services:
     image: zookeeper
     restart: always
     ports:
-      - 2181
+      - "2181"
     environment:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=zoo1:2888:3888
 
   nifi:
     build: ./nifi
-    image: nifi-node
+    image: nifi
     environment:
-        - http_proxy="http://16.85.88.10:8080" 
-        - https_proxy="http://16.85.88.10:8080"
-        - EXCLUDE_PORTS=8081,8082
+      - EXCLUDE_PORTS=8081,8082
         #Used by ListenTCP or other processors. Depends on the data flow.
-        - TCP_PORTS=9001
-        - NIFI_HOME=/opt/nifi
+      - TCP_PORTS=9001
+      - NIFI_HOME=/opt/nifi
     depends_on:
-        - zookeeper
+      - zookeeper
   
   lb-nifi:
     image: dockercloud/haproxy
@@ -29,11 +27,20 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 80:80
+      - "80:80"
+      - "9001:9001"
+  
+  kafka:
+    build: ./kafka
+    image: kafka
+    ports:
+      - "9092"
+    depends_on:
+      - zookeeper
  
   portainer:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 9090:9000
+      - "9000:9000"
