@@ -13,7 +13,8 @@ ADD ./kafka-properties.sh /opt/
 ADD ./kafka-create-topics.sh /opt/
 ADD ./kafka-topic-configuration.json /opt/
 
-RUN curl --silent -L -O https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 \
+RUN yum install -y net-tools \
+    && curl --silent -L -O https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 \
 	&& chmod +x ./jq-linux64 \
 	&& mv ./jq-linux64 /usr/bin/jq \
 	&& chmod +x /opt/download-kafka.sh \

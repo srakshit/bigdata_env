@@ -1,12 +1,12 @@
 #!/bin/sh
 
 if [ -z $START_TIMEOUT ]; then
-    START_TIMEOUT=60
+    START_TIMEOUT=600
 fi
 
 sleep_time=10
 timeout=0
-while [ $(netstat -lnt | grep "$KAFKA_PORT" | awk '{print $4}' | awk -F ":::" '{print $2}') != "$KAFKA_PORT" ]
+while [ $(netstat -lnt | grep $KAFKA_PORT | awk '{print $4}' | awk -F ":::" '{print $2}') != $KAFKA_PORT ]
 do
     sleep $sleep_time
     timeout=$((sleep_time + timeout))
