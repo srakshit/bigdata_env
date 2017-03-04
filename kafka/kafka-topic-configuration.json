@@ -1,0 +1,9 @@
+[{
+    "name": "topic1",
+    "partitions": "2",
+    "replication_factor": "2"
+},{
+    "name": "topic2",
+    "partitions": "3",
+    "replication_factor": "3"
+}]
