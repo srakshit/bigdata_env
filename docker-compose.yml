@@ -51,7 +51,18 @@ services:
       - "10001:8080"
     environment:
       - USER=admin
-      - PASSWORD=passw0rd
+      - PASSWORD=passwr0rd
       - ZK_DEFAULT_NODE=zookeeper:2181
     depends_on:
       - zookeeper
+  
+  kafka-manager:
+    image: sheepkiller/kafka-manager
+    ports:
+      - "10002:9000"
+    environment:
+      - ZK_HOSTS=zookeeper:2181
+      - APPLICATION_SECRET=kafka-manager
+    depends_on:
+      - zookeeper
+      - kafka
