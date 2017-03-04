@@ -35,6 +35,8 @@ services:
     image: kafka
     ports:
       - "9092"
+    environment:
+      - KAFKA_PORT=9092
     depends_on:
       - zookeeper
  

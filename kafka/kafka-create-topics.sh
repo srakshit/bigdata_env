@@ -1,5 +1,24 @@
 #!/bin/sh
 
+if [ -z $START_TIMEOUT ]; then
+    START_TIMEOUT=60
+fi
+
+sleep_time=10
+timeout=0
+while [ $(netstat -lnt | grep "$KAFKA_PORT" | awk '{print $4}' | awk -F ":::" '{print $2}') != "$KAFKA_PORT" ]
+do
+    sleep $sleep_time
+    timeout=$((sleep_time + timeout))
+    echo "Waiting for kafka to start. Elapsed time: $timeout s"
+
+    if [ $timeout -eq $START_TIMEOUT ]; then
+        echo "Failed to auto create topics";
+        exit;
+    fi
+done
+
+
 total_topic=$(cat /opt/kafka-topic-configuration.json | jq '. | length')
 
 cnt=0
