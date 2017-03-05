@@ -8,6 +8,9 @@ kafka_containers=$(docker ps | grep "\<kafka\>" | grep -v -- "-kafka" | awk '{pr
 
 kafka_port=""
 kafka_containers_active=""
+sleep_time=10
+timeout=0
+START_TIMEOUT=600
 
 echo "Waiting for kafka to start in all the containers"
 
@@ -35,7 +38,8 @@ while true; do
             fi
         fi
     done
-    
+
+        
     #If total kafka started is equal to total kafka containers spinned up then create kafka topics
     if [ $total_kafka_containers -gt 0 ] && [ $total_kafka_started -eq $total_kafka_containers ]; then
         container=$kafka_containers | awk '{print $1}'
@@ -45,4 +49,15 @@ while true; do
         docker exec --user root $container /bin/sh -c "/opt/kafka-create-topics.sh"
         exit;
     fi
+
+    #Check every few seconds whether kafka has started in the containers. If it fails to start within the timeout period exit the topic creation process
+    sleep $sleep_time
+    timeout=$((sleep_time + timeout))
+    echo "Waiting for all kafka containers to start. Elapsed time: ${timeout}s"
+
+    if [ $timeout -ge $START_TIMEOUT ]; then
+        echo "Failed to auto create topics";
+        exit;
+    fi
+
 done
