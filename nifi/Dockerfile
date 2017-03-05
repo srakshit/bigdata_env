@@ -6,7 +6,7 @@ ENV NIFI_HOME="/opt/nifi" \
 	HDF_VERSION="2.1.2.0" \
 	NIFI_VERSION="1.1.0"
 
-ADD ./*nifi* /opt/
+ADD ./nifi* /opt/
 
 RUN mv /opt/nifi-${NIFI_VERSION}.${HDF_VERSION}-10/ ${NIFI_HOME} \
 	&& sed -i -e "s|^nifi.ui.banner.text=.*$|nifi.ui.banner.text=Docker NiFi ${NIFI_VERSION}|" ${NIFI_HOME}/conf/nifi.properties \
@@ -14,8 +14,8 @@ RUN mv /opt/nifi-${NIFI_VERSION}.${HDF_VERSION}-10/ ${NIFI_HOME} \
 	&& groupadd nifi \
     	&& useradd -r -g nifi nifi \
 	&& chown nifi:nifi -R ${NIFI_HOME} \
-	&& chown nifi:nifi /opt/*nifi* \
-	&& chmod 754 /opt/*nifi*
+	&& chown nifi:nifi /opt/nifi* \
+	&& chmod 754 /opt/nifi*
 
 # These are the volumes (in order) for the following:
 # 1) user access and flow controller history
@@ -33,4 +33,4 @@ USER nifi
 
 EXPOSE 8080 8081 8082 9001
 
-CMD [ "sh", "-c", "/opt/start-nifi.sh"]
+CMD [ "sh", "-c", "/opt/nifi-start.sh"]
