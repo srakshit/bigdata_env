@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 total_topic=$(cat /opt/kafka-topic-configuration.json | jq '. | length')
 

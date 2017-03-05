@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #set nifi properties
 /opt/nifi-properties.sh

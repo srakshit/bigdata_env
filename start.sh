@@ -1,13 +1,4 @@
-#docker stop $(docker ps -aq)
-
-#docker rm $(docker ps -aq)
-
-#docker rmi nifi-node
-#docker rmi $(docker images | grep "^<none>" | awk "{print $3}")
-#docker rmi dockercloud/haproxy
-
-#docker-compose up -d
-#docker-compose scale nifi=3
+#!/bin/bash
 
 docker-compose down
 docker-compose build

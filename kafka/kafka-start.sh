@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #set kafka properties
 echo "Setting Kafka properties"

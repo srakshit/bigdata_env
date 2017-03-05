@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #set kafka server properties
 sed -i -e "s|^zookeeper.connect=.*$|zookeeper.connect=zookeeper:2181|" $KAFKA_HOME/config/server.properties
