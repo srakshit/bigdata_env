@@ -39,6 +39,16 @@ services:
       - KAFKA_PORT=9092
     depends_on:
       - zookeeper
+
+  storm-nimbus:
+    build: ./storm/nimbus
+    image: storm-nimbus
+    ports:
+      - "13772:3772"
+      - "13773:3773"
+      - "16627:6627"
+    depends_on:
+      - zookeeper
  
   portainer:
     image: portainer/portainer
