@@ -10,4 +10,6 @@ RUN chown nifi:nifi -R /opt/nifi-* \
 
 USER nifi
 
+EXPOSE 8080 8081 8082 9001
+
 CMD [ "sh", "-c", "/opt/nifi-start.sh"]
