@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #set nifi server properties
 sed -i -e "s|^nifi.web.http.host=.*$|nifi.web.http.host=$(hostname)|" $NIFI_HOME/conf/nifi.properties

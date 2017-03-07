@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #set storm properties
 #echo "Setting Storm properties"
