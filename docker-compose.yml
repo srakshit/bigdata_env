@@ -16,11 +16,12 @@ services:
       - EXCLUDE_PORTS=8081,8082
         #Used by ListenTCP or other processors. Depends on the data flow.
       - TCP_PORTS=9001
+      - VIRTUAL_HOST=*/nifi/
       - NIFI_HOME=/opt/nifi
     depends_on:
       - zookeeper
   
-  lb-nifi:
+  lb:
     image: dockercloud/haproxy
     links:
       - nifi
@@ -44,11 +45,23 @@ services:
     build: ./storm/nimbus
     image: storm-nimbus
     ports:
-      - "13772:3772"
-      - "13773:3773"
-      - "16627:6627"
+      - "3772"
+      - "3773"
+      - "6627"
+      - "9090:8080"
+    environment:
+      - EXCLUDE_POddRTS=3772,3773,6627
     depends_on:
       - zookeeper
+ 
+  storm-supervisor:
+    build: ./storm/supervisor
+    image: storm-supervisor
+    ports:
+      - "8000"
+    depends_on:
+      - zookeeper
+      - storm-nimbus
  
   portainer:
     image: portainer/portainer
