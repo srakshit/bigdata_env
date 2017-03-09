@@ -3,6 +3,13 @@
 #Get total number od active kafka containers
 total_kafka_containers=$(docker ps | grep "\<kafka\>" | grep -v -- "-kafka" | wc -l)
 
+#If total kafka started is 0 exit from the process
+if [ $total_kafka_containers -eq 0 ]; then
+   echo "Kafka containers not started. Exiting topic creation process"
+   exit;
+fi
+
+
 #Get all active kafka container ids
 kafka_containers=$(docker ps | grep "\<kafka\>" | grep -v -- "-kafka" | awk '{print $1}')
 
