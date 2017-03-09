@@ -1,6 +1,6 @@
 FROM srakshit/kafka
 
-MAINTAINER Subham Rakshit <subham.rakshit@hpe.com>
+MAINTAINER Subham Rakshit
 
 ADD ./kafka-* /opt/
 
