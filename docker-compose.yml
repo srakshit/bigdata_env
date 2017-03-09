@@ -44,12 +44,13 @@ services:
     build: ./storm/nimbus
     image: storm-nimbus
     ports:
-      - "3772"
-      - "3773"
-      - "6627"
+      - "13772:3772"
+      - "13773:3773"
+      - "16627:6627"
       - "9090:8080"
     environment:
-      - EXCLUDE_PORTS=3772,3773,6627
+      - ZK_ADDR=zookeeper
+      - NIMBUS_ADDR=storm-nimbus
     depends_on:
       - zookeeper
  
@@ -58,6 +59,9 @@ services:
     image: storm-supervisor
     ports:
       - "8000"
+    environment:
+      - ZK_ADDR=zookeeper
+      - NIMBUS_ADDR=storm-nimbus
     depends_on:
       - zookeeper
       - storm-nimbus
