@@ -16,6 +16,7 @@ services:
       - EXCLUDE_PORTS=8081,8082
         #Used by ListenTCP or other processors. Depends on the data flow.
       - TCP_PORTS=9001
+      - VIRTUAL_HOST=nifi
       - NIFI_HOME=/opt/nifi
     depends_on:
       - zookeeper
@@ -24,6 +25,9 @@ services:
     image: dockercloud/haproxy
     links:
       - nifi
+      - storm-nimbus
+      - portainer
+      - zk-web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -50,6 +54,7 @@ services:
       - "9090:8080"
     environment:
       - ZK_ADDR=zookeeper
+      - VIRTUAL_HOST=storm-ui
       - NIMBUS_ADDR=storm-nimbus
     depends_on:
       - zookeeper
@@ -70,6 +75,8 @@ services:
     image: portainer/portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - VIRTUAL_HOST=portainer
     ports:
       - "10000:9000"
   
@@ -81,6 +88,7 @@ services:
       - USER=admin
       - PASSWORD=passwr0rd
       - ZK_DEFAULT_NODE=zookeeper:2181
+      - VIRTUAL_HOST=zookeeper
     depends_on:
       - zookeeper
   
