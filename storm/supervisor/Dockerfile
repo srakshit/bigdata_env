@@ -2,6 +2,8 @@ FROM srakshit/storm
 
 MAINTAINER Subham Rakshit
 
+ENV APP_NAME=supervisor
+
 ADD ./storm-supervisor-start.sh /opt/
 ADD ./storm-supervisord.conf /etc/storm-supervisord.conf
 

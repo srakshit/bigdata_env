@@ -2,6 +2,8 @@ FROM srakshit/storm
 
 MAINTAINER Subham Rakshit
 
+ENV APP_NAME=nimbus
+
 ADD ./storm-nimbus-start.sh /opt/
 ADD ./storm-supervisord.conf /etc/storm-supervisord.conf
 
