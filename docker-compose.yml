@@ -6,33 +6,34 @@ services:
     ports:
       - "2181"
     environment:
-      ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=zoo1:2888:3888
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=zoo1:2888:3888
+      - TCP_PORTS=2181
 
   nifi:
     build: ./nifi
     image: nifi
     environment:
       - EXCLUDE_PORTS=8081,8082
-        #Used by ListenTCP or other processors. Depends on the data flow.
       - TCP_PORTS=9001
-      - VIRTUAL_HOST=nifi
+      - VIRTUAL_HOST=sandbox/
       - NIFI_HOME=/opt/nifi
-    depends_on:
-      - zookeeper
+      - ZK_CONNECT_STRING=lb:2181
   
   lb:
     image: dockercloud/haproxy
     links:
       - nifi
-      - storm-nimbus
+#      - storm-nimbus
       - portainer
       - zk-web
+      - zookeeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "80:80"
       - "9001:9001"
+      - "2181:2181"
   
   kafka:
     build: ./kafka
@@ -41,8 +42,7 @@ services:
       - "9092"
     environment:
       - KAFKA_PORT=9092
-    depends_on:
-      - zookeeper
+      - ZK_CONNECT_STRING=lb:2181
 
   storm-nimbus:
     build: ./storm/nimbus
@@ -53,22 +53,19 @@ services:
       - "16627:6627"
       - "9090:8080"
     environment:
-      - ZK_ADDR=zookeeper
-      - VIRTUAL_HOST=storm-ui
+      - ZK_ADDR=lb
+      - VIRTUAL_HOST=sandbox/storm/
       - NIMBUS_ADDR=storm-nimbus
-    depends_on:
-      - zookeeper
  
   storm-supervisor:
     build: ./storm/supervisor
     image: storm-supervisor
     ports:
-      - "8000"
+      - "8000:8000"
     environment:
-      - ZK_ADDR=zookeeper
+      - ZK_ADDR=lb
       - NIMBUS_ADDR=storm-nimbus
     depends_on:
-      - zookeeper
       - storm-nimbus
  
   portainer:
@@ -76,9 +73,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - VIRTUAL_HOST=portainer
-    ports:
-      - "10000:9000"
+      - VIRTUAL_HOST=sandbox/portainer/
   
   zk-web:
     image: tobilg/zookeeper-webui
@@ -88,17 +83,15 @@ services:
       - USER=admin
       - PASSWORD=passwr0rd
       - ZK_DEFAULT_NODE=zookeeper:2181
-      - VIRTUAL_HOST=zookeeper
-    depends_on:
-      - zookeeper
+      - VIRTUAL_HOST=sandbox/zkweb/
   
-  kafka-manager:
-    image: sheepkiller/kafka-manager
-    ports:
-      - "10002:9000"
-    environment:
-      - ZK_HOSTS=zookeeper:2181
-      - APPLICATION_SECRET=kafka-manager
-    depends_on:
-      - zookeeper
-      - kafka
+#  kafka-manager:
+#    image: sheepkiller/kafka-manager
+#    ports:
+#      - "10002:9000"
+#    environment:
+#      - ZK_HOSTS=zookeeper:2181
+#      - APPLICATION_SECRET=kafka-manager
+#    depends_on:
+#      - zookeeper
+#      - kafka
