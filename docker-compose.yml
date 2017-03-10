@@ -19,12 +19,14 @@ services:
       - VIRTUAL_HOST=sandbox/
       - NIFI_HOME=/opt/nifi
       - ZK_CONNECT_STRING=lb:2181
+      - NIFI_CLUSTER_MODE=true
+      - NIFI_ELECTION_MAX_CANDIDATES=3
   
   lb:
     image: dockercloud/haproxy
     links:
       - nifi
-#      - storm-nimbus
+      - storm-nimbus
       - portainer
       - zk-web
       - zookeeper

@@ -2,7 +2,6 @@ FROM srakshit/nifi
 
 MAINTAINER Subham Rakshit 
 
-ADD ./nifi-properties.sh /opt/
 ADD ./nifi-start.sh /opt/
 
 RUN chown nifi:nifi -R /opt/nifi-* \
