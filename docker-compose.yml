@@ -26,9 +26,10 @@ services:
     image: dockercloud/haproxy
     links:
       - nifi
-     # - storm-nimbus
+      - storm-nimbus
       - portainer
       - zk-web
+      - kafka
       - zookeeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -46,30 +47,30 @@ services:
       - KAFKA_PORT=9092
       - ZK_CONNECT_STRING=lb:2181
 
-#  storm-nimbus:
-#    build: ./storm/nimbus
-#    image: storm-nimbus
-#    ports:
-#      - "13772:3772"
-#      - "13773:3773"
-#      - "16627:6627"
-#      - "9090:8080"
-#    environment:
-#      - ZK_ADDR=lb
-#      - VIRTUAL_HOST=storm
-#      - APP_NAME=nimbus
-# 
-#  storm-supervisor:
-#    build: ./storm/supervisor
-#    image: storm-supervisor
-#    ports:
-#      - "8000"
-#    environment:
-#      - ZK_ADDR=lb
-#      - NIMBUS_ADDR=storm-nimbus
-#      - APP_NAME=supervisor
-#    depends_on:
-#      - storm-nimbus
+  storm-nimbus:
+    build: ./storm/nimbus
+    image: storm-nimbus
+    ports:
+      - "13772:3772"
+      - "13773:3773"
+      - "16627:6627"
+      - "9090:8080"
+    environment:
+      - ZK_ADDR=lb
+      - VIRTUAL_HOST=storm
+      - APP_NAME=nimbus
+ 
+  storm-supervisor:
+    build: ./storm/supervisor
+    image: storm-supervisor
+    ports:
+      - "8000"
+    environment:
+      - ZK_ADDR=lb
+      - NIMBUS_ADDR=storm-nimbus
+      - APP_NAME=supervisor
+    depends_on:
+      - storm-nimbus
  
   portainer:
     image: portainer/portainer
