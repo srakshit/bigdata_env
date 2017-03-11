@@ -10,22 +10,22 @@ services:
       - ZOO_SERVERS=server.1=zoo1:2888:3888
       - TCP_PORTS=2181
 
-#  nifi:
-#    build: ./nifi
-#    image: nifi
-#    environment:
-#      - EXCLUDE_PORTS=8081,8082
-#      - TCP_PORTS=9001
-#      - VIRTUAL_HOST=nifi
-#      - NIFI_HOME=/opt/nifi
-#      - ZK_CONNECT_STRING=lb:2181
-#      - NIFI_CLUSTER_MODE=true
-#      - NIFI_ELECTION_MAX_CANDIDATES=3
+  nifi:
+    build: ./nifi
+    image: nifi
+    environment:
+      - EXCLUDE_PORTS=8081,8082
+      - TCP_PORTS=9001
+      - VIRTUAL_HOST=nifi
+      - NIFI_HOME=/opt/nifi
+      - ZK_CONNECT_STRING=lb:2181
+      - NIFI_CLUSTER_MODE=true
+      - NIFI_ELECTION_MAX_CANDIDATES=3
   
   lb:
     image: dockercloud/haproxy
     links:
-     # - nifi
+      - nifi
      # - storm-nimbus
       - portainer
       - zk-web
