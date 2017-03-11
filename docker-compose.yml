@@ -57,7 +57,7 @@ services:
     environment:
       - ZK_ADDR=lb
       - VIRTUAL_HOST=sandbox/storm/
-      - NIMBUS_ADDR=storm-nimbus
+      - APP_NAME=nimbus
  
   storm-supervisor:
     build: ./storm/supervisor
@@ -67,6 +67,7 @@ services:
     environment:
       - ZK_ADDR=lb
       - NIMBUS_ADDR=storm-nimbus
+      - APP_NAME=supervisor
     depends_on:
       - storm-nimbus
  
