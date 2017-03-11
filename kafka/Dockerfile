@@ -4,7 +4,8 @@ MAINTAINER Subham Rakshit
 
 ADD ./kafka-* /opt/
 
-RUN chown kafka:kafka -R /opt/kafka*
+RUN chown kafka:kafka -R /opt/kafka* \
+    && chmod 754 /opt/kafka*
 
 USER kafka
 

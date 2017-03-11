@@ -27,7 +27,7 @@ services:
     links:
      # - nifi
      # - storm-nimbus
-     # - portainer
+      - portainer
       - zk-web
       - zookeeper
     volumes:
@@ -37,15 +37,15 @@ services:
       - "9001:9001"
       - "2181:2181"
   
-#  kafka:
-#    build: ./kafka
-#    image: kafka
-#    ports:
-#      - "9092"
-#    environment:
-#      - KAFKA_PORT=9092
-#      - ZK_CONNECT_STRING=lb:2181
-#
+  kafka:
+    build: ./kafka
+    image: kafka
+    ports:
+      - "9092"
+    environment:
+      - KAFKA_PORT=9092
+      - ZK_CONNECT_STRING=lb:2181
+
 #  storm-nimbus:
 #    build: ./storm/nimbus
 #    image: storm-nimbus
@@ -70,13 +70,15 @@ services:
 #      - APP_NAME=supervisor
 #    depends_on:
 #      - storm-nimbus
-# 
-#  portainer:
-#    image: portainer/portainer
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock
-#    environment:
-#      - VIRTUAL_HOST=portainer
+ 
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9000"
+    environment:
+      - VIRTUAL_HOST=portainer
   
   zk-web:
     image: tobilg/zookeeper-webui
