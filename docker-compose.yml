@@ -87,8 +87,8 @@ services:
       - "8080"
     environment:
       - USER=admin
-      - PASSWORD=passwr0rd
-      - ZK_DEFAULT_NODE=zookeeper:2181
+      - PASSWORD=password
+      - ZK_DEFAULT_NODE=lb:2181
       - VIRTUAL_HOST=zkweb
   
 #  kafka-manager:
