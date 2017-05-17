@@ -11,6 +11,6 @@ RUN chown cassandra:cassandra -R /opt/cassandra* \
 
 USER cassandra
 
-EXPOSE 9160
+EXPOSE 9042
 
 CMD [ "sh", "-c", "/opt/cassandra-start.sh"]
