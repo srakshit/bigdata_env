@@ -1,14 +1,16 @@
-FROM srakshit/kafka
+FROM srakshit/cassandra
 
 MAINTAINER Subham Rakshit
 
-ADD ./kafka-* /opt/
+ADD ./cassandra-* /opt/
 
-RUN chown kafka:kafka -R /opt/kafka* \
-    && chmod 754 /opt/kafka*
+RUN apk add --no-cache python python-dev
 
-USER kafka
+RUN chown cassandra:cassandra -R /opt/cassandra* \
+    && chmod 754 /opt/cassandra*
 
-EXPOSE 9092
+USER cassandra
 
-CMD [ "sh", "-c", "/opt/kafka-start.sh"]
+EXPOSE 9160
+
+CMD [ "sh", "-c", "/opt/cassandra-start.sh"]
