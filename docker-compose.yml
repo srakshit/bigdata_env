@@ -32,6 +32,7 @@ services:
       - kafka
       - zookeeper
       - cassandra
+      - elasticsearch
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -77,9 +78,18 @@ services:
     build: ./cassandra
     image: cassandra
     ports:
-      - "9160"
+      - "9042"
     environment:
-      - TCP_PORTS=9160
+      - TCP_PORTS=9042
+
+  elasticsearch:
+    build: ./elasticsearch
+    image: elasticsearch
+    ports:
+      - "9200"
+    environment:
+      - TCP_PORTS=9200
+
 
   portainer:
     image: portainer/portainer

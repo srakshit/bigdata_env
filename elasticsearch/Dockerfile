@@ -1,14 +1,14 @@
-FROM srakshit/kafka
+FROM srakshit/elasticsearch
 
 MAINTAINER Subham Rakshit
 
-ADD ./kafka-* /opt/
+ADD ./elasticsearch-* /opt/
 
-RUN chown kafka:kafka -R /opt/kafka* \
-    && chmod 754 /opt/kafka*
+RUN chown elasticsearch:elasticsearch -R /opt/elasticsearch* \
+    && chmod 754 /opt/elasticsearch*
 
-USER kafka
+USER elasticsearch
 
-EXPOSE 9092
+EXPOSE 9200
 
-CMD [ "sh", "-c", "/opt/kafka-start.sh"]
+CMD [ "sh", "-c", "/opt/elasticsearch-start.sh"]
