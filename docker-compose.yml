@@ -90,6 +90,9 @@ services:
     environment:
       - TCP_PORTS=9200
 
+  janusgraph:
+    build: ./janusgraph
+    image: janusgraph
 
   portainer:
     image: portainer/portainer

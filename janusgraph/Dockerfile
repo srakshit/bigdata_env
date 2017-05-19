@@ -1,14 +1,12 @@
-FROM srakshit/kafka
+FROM srakshit/janusgraph
 
 MAINTAINER Subham Rakshit
 
-ADD ./kafka-* /opt/
+ADD ./janusgraph-* /opt/
 
-RUN chown kafka:kafka -R /opt/kafka* \
-    && chmod 754 /opt/kafka*
+RUN chown janusgraph:janusgraph -R /opt/janusgraph* \
+    && chmod 754 /opt/janusgraph*
 
-USER kafka
+USER janusgraph
 
-EXPOSE 9092
-
-CMD [ "sh", "-c", "/opt/kafka-start.sh"]
+CMD [ "sh", "-c", "/opt/janusgraph-start.sh"]

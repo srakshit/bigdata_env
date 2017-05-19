@@ -4,8 +4,6 @@ MAINTAINER Subham Rakshit
 
 ADD ./cassandra-* /opt/
 
-RUN apk add --no-cache python python-dev
-
 RUN chown cassandra:cassandra -R /opt/cassandra* \
     && chmod 754 /opt/cassandra*
 
