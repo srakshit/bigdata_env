@@ -33,6 +33,7 @@ services:
       - zookeeper
       - cassandra
       - elasticsearch
+      - janusgraph
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
@@ -78,9 +79,9 @@ services:
     build: ./cassandra
     image: cassandra
     ports:
-      - "9042"
+      - "9160"
     environment:
-      - TCP_PORTS=9042
+      - TCP_PORTS=9160
 
   elasticsearch:
     build: ./elasticsearch
@@ -93,6 +94,13 @@ services:
   janusgraph:
     build: ./janusgraph
     image: janusgraph
+    ports:
+      - "8182"
+    environment:
+      - TCP_PORTS=8182
+    depends_on:
+      - cassandra
+      - elasticsearch
 
   portainer:
     image: portainer/portainer
