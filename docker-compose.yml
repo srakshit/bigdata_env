@@ -80,24 +80,20 @@ services:
     image: cassandra
     ports:
       - "9160"
-    environment:
-      - TCP_PORTS=9160
+      - "9042"
 
   elasticsearch:
     build: ./elasticsearch
     image: elasticsearch
     ports:
       - "9200"
-    environment:
-      - TCP_PORTS=9200
+      - "9300"
 
   janusgraph:
     build: ./janusgraph
     image: janusgraph
     ports:
       - "8182"
-    environment:
-      - TCP_PORTS=8182
     depends_on:
       - cassandra
       - elasticsearch

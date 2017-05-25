@@ -9,6 +9,6 @@ RUN chown elasticsearch:elasticsearch -R /opt/elasticsearch* \
 
 USER elasticsearch
 
-EXPOSE 9200
+EXPOSE 9200 9300
 
 CMD [ "sh", "-c", "/opt/elasticsearch-start.sh"]
